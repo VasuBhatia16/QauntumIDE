@@ -1,3 +1,4 @@
+import "../styles/ResizeGrip.css"
 import "../styles/Dashboard.css";
 import Navbar from "../components/Navbar";
 import ProtectedRoute from "../components/ProtectedRoute";
@@ -7,6 +8,9 @@ import type { FileNode } from "../components/Explorer";
 import { useEffect, useMemo, useState } from "react";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import CodeEditor from "../components/CodeEditor";
+import BottomPanel from "../components/BottomPanel";
+import TerminalPanel from "../components/TerminalPanel";
+import ProblemsPanel from "../components/ProblemsPanel";
 
 export default function Dashboard() {
   const { user } = useUser();
@@ -14,6 +18,12 @@ export default function Dashboard() {
 
   // Activity bar state
   const [activePanel, setActivePanel] = useState<"explorer" | "search" | "settings" | null>("explorer");
+  const [output, setOutput] = useState("");
+  const [error, setError] = useState("");
+  const [exitCode, setExitCode] = useState<number | null>(null);
+  const [problems, setProblems] = useState([]);
+  const [bottomHeight, setBottomHeight] = useState(200);
+
 
   // Initial sample tree (local/in-memory)
   const initialTree: FileNode[] = useMemo(
@@ -102,8 +112,52 @@ export default function Dashboard() {
                   setActiveFile(updated);
                 }}
               />
-            </section>
-          </main>
+          </section>
+</main>
+<div
+  className="resize-grip"
+  onMouseDown={(e) => {
+    e.preventDefault();
+    const startY = e.clientY;
+    const startHeight = bottomHeight;
+
+    const onMouseMove = (ev: MouseEvent) => {
+      const dy = ev.clientY - startY;
+      let newHeight = startHeight - dy;
+
+      // enforce min/max limits
+      if (newHeight < 120) newHeight = 120;
+      if (newHeight > 500) newHeight = 500;
+
+      setBottomHeight(newHeight);
+    };
+
+    const onMouseUp = () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+  }}
+/>
+<div style={{ height: bottomHeight }}>
+<BottomPanel
+  terminal={
+    <TerminalPanel
+      output={output}
+      error={error}
+      exitCode={exitCode}
+      onClear={() => {
+        setOutput("");
+        setError("");
+        setExitCode(null);
+      }}
+    />
+  }
+  problems={<ProblemsPanel problems={problems} />}
+/>
+</div>
 
         </div>
       </div>

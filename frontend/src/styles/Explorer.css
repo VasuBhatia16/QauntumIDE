@@ -111,3 +111,10 @@
 .row-btn:hover { background: #162245; }
 .row-btn.danger { color: #ffb4b4; }
 .row-btn.danger:hover { background: #3a1621; }
+.explorer-header {
+  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+.explorer-row {
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}

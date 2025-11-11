@@ -1,6 +1,6 @@
 import "../styles/BottomPanel.css";
-import { ReactNode, useState } from "react";
-
+import {  useState } from "react";
+import type { ReactNode } from "react";
 type Props = {
   terminal: ReactNode;
   problems: ReactNode;

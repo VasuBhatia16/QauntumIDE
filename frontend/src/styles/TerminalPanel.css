@@ -1,0 +1,50 @@
+.terminal-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.terminal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #e8efff;
+  padding: 6px 8px;
+}
+
+.terminal-clear {
+  padding: 4px 8px;
+  background: #1a2240;
+  border-radius: 6px;
+  color: #e8efff;
+  font-size: 12px;
+}
+
+.terminal-clear:hover {
+  background: #242f55;
+}
+
+.terminal-body {
+  padding: 8px;
+  font-size: 13px;
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+.terminal-out {
+  color: #d5ffcf;
+}
+
+.terminal-err {
+  color: #ffb4b4;
+}
+
+.terminal-exit {
+  color: #9aa8c7;
+  margin-top: 8px;
+}
+
+.terminal-empty {
+  opacity: 0.6;
+  font-size: 13px;
+}
