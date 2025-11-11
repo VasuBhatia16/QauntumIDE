@@ -1,0 +1,116 @@
+.auth-page {
+  min-height: 100vh;
+  background-color: #0b0f17;
+  padding: 40px 0;
+}
+
+.auth-box {
+  max-width: 420px;
+  margin: 40px auto;
+  color: white;
+}
+
+.auth-title {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.auth-subtitle {
+  text-align: center;
+  opacity: 0.8;
+  margin-bottom: 20px;
+}
+
+.auth-container {
+  background-color: #0f172a;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #1f2937;
+}
+
+.auth-btn-primary {
+  background-color: #6366f1 !important;
+  border-radius: 6px !important;
+}
+
+.auth-btn-social {
+  background-color: #111827 !important;
+  border: 1px solid #1f2937 !important;
+}
+
+.auth-card {
+  background: transparent !important;
+  border: none !important;
+}
+.cl-root * {
+  color: #ffffff !important;
+}
+
+.cl-input,
+.cl-input::placeholder {
+  color: #ffffff !important;
+}
+
+/* Input background & border */
+.cl-input {
+  background-color: #141a2b !important;
+  border: 1px solid #334155 !important;
+  padding: 10px 12px !important;
+  border-radius: 6px !important;
+}
+
+/* Labels, small descriptions */
+.cl-formFieldLabel,
+.cl-formFieldLabelText,
+.cl-formFieldHintText,
+.cl-formFieldSuccessText,
+.cl-formFieldErrorText {
+  color: #ffffff !important;
+}
+
+/* Social buttons text */
+.cl-socialButtonsBlockButton {
+  color: #ffffff !important;
+}
+
+/* Divider "or continue with" */
+.cl-dividerLineText {
+  color: #ffffff !important;
+}
+
+/* Checkbox label text */
+.cl-formField {
+  color: #ffffff !important;
+}
+
+/* Form button */
+.auth-btn-primary {
+  color: #ffffff !important;
+}
+
+/* Resend email, forgot password links */
+.cl-link,
+.cl-linkText {
+  color: #ffffff !important;
+}
+.cl-input::placeholder {
+  color: rgba(255, 255, 255, 0.65) !important;
+}
+
+
+.auth-card,
+.cl-card {
+  background-color: #0f172a !important;
+  border: 1px solid #1f2937 !important;
+  color: #ffffff !important;
+}
+.auth-input {
+  color: #ffffff !important;
+  background-color: #141a2b !important;
+  border: 1px solid #334155 !important;
+}
+
+.auth-input::placeholder {
+  color: rgba(255,255,255,0.7) !important;
+}

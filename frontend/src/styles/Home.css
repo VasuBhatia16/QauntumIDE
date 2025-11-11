@@ -1,0 +1,41 @@
+.home-page {
+  min-height: 100vh;
+  background-color: #0b0f17;
+  color: white;
+}
+
+.home-hero {
+  padding: 120px 20px;
+  text-align: center;
+}
+
+.home-title {
+  font-size: 56px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+.home-subtitle {
+  font-size: 18px;
+  opacity: 0.85;
+  margin-bottom: 28px;
+}
+
+.home-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.home-btn-primary {
+  background: #6366f1;
+  padding: 12px 24px;
+  border-radius: 8px;
+  color: white;
+}
+
+.home-btn-secondary {
+  border: 1px solid #334155;
+  padding: 12px 24px;
+  border-radius: 8px;
+}
