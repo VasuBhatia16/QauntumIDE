@@ -6,14 +6,42 @@
   flex-direction: column;
 }
 
-/* IDE shell layout: Activity bar | Explorer | Editor */
 .ide-shell {
+  --explorer-width: 280px;
   display: grid;
-  grid-template-columns: 52px 280px 1fr;
-  min-height: calc(100vh - 64px); /* minus navbar */
+  grid-template-columns: 52px var(--explorer-width) 1fr;
+  min-height: calc(100vh - 64px);
+  transition: grid-template-columns 0.25s ease;
 }
 
-/* Editor area */
+
+.ide-shell.explorer-collapsed {
+  --explorer-width: 0px;
+}
+
+.explorer {
+  overflow: hidden;
+  transition: opacity 0.25s ease;
+}
+
+.ide-shell.explorer-collapsed .explorer {
+  opacity: 0;
+}
+
+
+.activitybar {
+  border-right: 1px solid rgba(255,255,255,0.05);
+}
+
+.explorer {
+  border-right: 1px solid rgba(255,255,255,0.05);
+}
+
+.editor-surface {
+  border-left: 1px solid rgba(255,255,255,0.05);
+}
+
+
 .editor-surface {
   display: flex;
   flex-direction: column;
@@ -43,6 +71,7 @@
   border-radius: 8px 8px 0 0;
   color: #9aa8c7;
 }
+
 .tab.active {
   background: #131c33;
   color: #e8efff;
@@ -61,8 +90,29 @@
 .editor-area {
   flex: 1;
   min-height: 0;
-  overflow: auto;
-  padding: 16px;
+  overflow: hidden;
+  padding: 0;
+}
+
+.monaco-editor,
+.monaco-editor-background {
+  background-color: #0b0f17 !important;
+}
+
+.preview-name {
+  font-size: 13px;
+  color: #9aa8c7;
+  margin-bottom: 8px;
+}
+
+.preview-code {
+  white-space: pre-wrap;
+  background: #0f172a;
+  border: 1px solid #121a2a;
+  border-radius: 8px;
+  padding: 12px;
+  line-height: 1.5;
+  color: #e8efff;
 }
 
 .welcome h3 {
@@ -70,9 +120,10 @@
   font-size: 20px;
   font-weight: 800;
 }
+
 .welcome p {
   margin: 6px 0;
-  opacity: .85;
+  opacity: 0.85;
 }
 
 .api-msg {
@@ -86,51 +137,20 @@
   display: inline-block;
 }
 
-.preview-name {
-  font-size: 13px;
-  color: #9aa8c7;
-  margin-bottom: 8px;
-}
-.preview-code {
-  white-space: pre-wrap;
-  background: #0f172a;
-  border: 1px solid #121a2a;
-  border-radius: 8px;
-  padding: 12px;
-  line-height: 1.5;
-  color: #e8efff;
-}
-.editor-area {
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-  padding: 0;
+
+.resize-grip {
+  height: 6px;
+  cursor: row-resize;
+  background: transparent;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  transition: background 0.15s ease;
 }
 
-.editor-surface {
-  min-width: 0;
-  background: #090f1a;
-  display: flex;
-  flex-direction: column;
+.resize-grip:hover {
+  background: rgba(255,255,255,0.05);
 }
 
-.monaco-editor, .monaco-editor-background {
-  background-color: #0b0f17 !important;
-}
-/* Light outlines for layout sections */
-.ide-shell {
-  border-top: 1px solid rgba(255,255,255,0.05);
-}
-
-.activitybar {
-  border-right: 1px solid rgba(255,255,255,0.05) !important;
-}
-
-.explorer {
-  border-right: 1px solid rgba(255,255,255,0.05) !important;
-}
-
-.editor-surface {
-  border-left: 1px solid rgba(255,255,255,0.05);
-  border-right: 1px solid rgba(255,255,255,0.05);
+.resize-grip.dragging {
+  background: rgba(99,102,241,0.2);
 }

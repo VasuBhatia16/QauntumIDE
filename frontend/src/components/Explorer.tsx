@@ -115,12 +115,12 @@ export default function Explorer({ tree, onOpenFile, onUpdateTree, collapsed }: 
           <div className="row-actions">
             {isFolder ? (
               <>
-                <button className="row-btn" onClick={() => addFile(node.id)} title="New file">＋f</button>
-                <button className="row-btn" onClick={() => addFolder(node.id)} title="New folder">＋d</button>
+                <button className="row-btn" onClick={() => addFile(node.id)}>＋f</button>
+                <button className="row-btn" onClick={() => addFolder(node.id)}>＋d</button>
               </>
             ) : null}
-            <button className="row-btn" onClick={() => renameNode(node.id)} title="Rename">✎</button>
-            <button className="row-btn danger" onClick={() => deleteNode(node.id)} title="Delete">⌫</button>
+            <button className="row-btn" onClick={() => renameNode(node.id)}>✎</button>
+            <button className="row-btn danger" onClick={() => deleteNode(node.id)}>⌫</button>
           </div>
         </div>
 
@@ -135,25 +135,27 @@ export default function Explorer({ tree, onOpenFile, onUpdateTree, collapsed }: 
     );
   };
 
-  if (collapsed) return null;
-
   return (
-    <aside className="explorer">
-      <header className="explorer-header">
-        <span className="explorer-title">EXPLORER</span>
-        <div className="explorer-actions">
-          <button className="ex-btn" onClick={() => addFile()} title="New file at root">＋f</button>
-          <button className="ex-btn" onClick={() => addFolder()} title="New folder at root">＋d</button>
-        </div>
-      </header>
+    <aside className={`explorer ${collapsed ? "hidden" : ""}`}>
+      {!collapsed && (
+        <>
+          <header className="explorer-header">
+            <span className="explorer-title">EXPLORER</span>
+            <div className="explorer-actions">
+              <button className="ex-btn" onClick={() => addFile()}>＋f</button>
+              <button className="ex-btn" onClick={() => addFolder()}>＋d</button>
+            </div>
+          </header>
 
-      <div className="explorer-tree" role="tree" aria-label="Files">
-        {tree.length === 0 ? (
-          <div className="empty">No files yet. Use + buttons to add.</div>
-        ) : (
-          tree.map((n) => <Row key={n.id} node={n} />)
-        )}
-      </div>
+          <div className="explorer-tree">
+            {tree.length === 0 ? (
+              <div className="empty">No files yet.</div>
+            ) : (
+              tree.map((n) => <Row key={n.id} node={n} />)
+            )}
+          </div>
+        </>
+      )}
     </aside>
   );
 }

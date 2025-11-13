@@ -1,12 +1,16 @@
 .resize-grip {
   height: 6px;
-  background: transparent;
   cursor: row-resize;
+  background: transparent;
   border-top: 1px solid rgba(255,255,255,0.08);
   border-bottom: 1px solid rgba(255,255,255,0.03);
-  transition: background .1s ease;
+  transition: background 0.15s ease;
 }
 
 .resize-grip:hover {
   background: rgba(255,255,255,0.05);
+}
+
+.resize-grip.dragging {
+  background: rgba(99,102,241,0.2);
 }
