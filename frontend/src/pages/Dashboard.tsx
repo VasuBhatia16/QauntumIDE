@@ -61,13 +61,14 @@ export default function Dashboard() {
   const [error, setError] = useState("");
   const [exitCode, setExitCode] = useState<number | null>(null);
   const [problems, setProblems] = useState([]);
-
+  setProblems([]);
   const [bottomHeight, setBottomHeight] = useState(220);
   const [isDragging, setIsDragging] = useState(false);
   const startYRef = useRef<number>(0);
   const startHeightRef = useRef<number>(0);
 
   const [apiResponse, setApiResponse] = useState("");
+  apiResponse;
   useEffect(() => {
     (async () => {
       try {
