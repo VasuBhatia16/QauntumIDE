@@ -154,3 +154,24 @@
 .resize-grip.dragging {
   background: rgba(99,102,241,0.2);
 }
+
+.run-btn {
+  background: #16a34a;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 12px;
+  transition: background 0.2s ease;
+}
+
+.run-btn:hover {
+  background: #15803d;
+}
+
+.run-btn:disabled {
+  background: #334155;
+  cursor: not-allowed;
+}

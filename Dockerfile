@@ -26,20 +26,22 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-RUN ln -s /run/desktop/docker.sock /var/run/docker.sock || true
 
 RUN apt-get update && \
-    apt-get install -y curl docker.io && \
-    apt-get clean
+apt-get install -y curl docker.io && \
+apt-get clean
 
+RUN ln -s /run/desktop/docker.sock /var/run/docker.sock || true
 
 COPY --from=backend-build /backend/app ./app
 
 COPY --from=backend-build /backend/.env .env
 
+COPY --from=backend-build /backend/requirements.txt ./requirements.txt
+
 COPY --from=frontend-build /frontend/dist ./static
 
-RUN pip install uvicorn[standard] fastapi
+RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8000
 

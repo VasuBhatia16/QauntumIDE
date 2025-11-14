@@ -3,7 +3,7 @@ from fastapi import HTTPException, Request
 from jose import jwt
 import httpx
 from cachetools import TTLCache
-import config
+from app import config
 
 JWKS_URL = f"{config.CLERK_ISSUER}/.well-known/jwks.json"
 _JWKS_CACHE = TTLCache(maxsize=1, ttl=3600)

@@ -20,6 +20,28 @@ export default function Dashboard() {
     "explorer" | "search" | "settings" | null
   >("explorer");
 
+  const detectLanguage = (filename: string | undefined) => {
+  if (!filename) return null;
+  const ext = filename.split(".").pop();
+
+  switch (ext) {
+    case "py": return "python";
+    case "js": return "javascript";
+    case "cpp":
+    case "cc":
+    case "cxx": return "cpp";
+    case "java": return "java";
+    case "go": return "go";
+    case "md": return "markdown";
+    case "json": return "json";
+    case "html": return "html";
+    case "css": return "css";
+    case "ts": return "typescript";
+    default: return null;
+  }
+};
+
+
   const initialTree: FileNode[] = useMemo(
     () => [
       {
@@ -53,6 +75,42 @@ export default function Dashboard() {
     ],
     []
   );
+  const runCode = async () => {
+  if (!activeFile) return;
+
+  const language = activeFile.language || detectLanguage(activeFile.name);  
+
+  if (!language) {
+    setError("Cannot detect language for this file.");
+    return;
+  }
+
+  try {
+    const token = await getToken();
+
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/execute`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        language: language,
+        code: activeFile.content,
+        filename: activeFile.name,
+        timeout: 10
+      }),
+    });
+
+    const data = await res.json();
+
+    setOutput(data.stdout || "");
+    setError(data.stderr || "");
+    setExitCode(data.exitCode ?? null);
+  } catch (err) {
+    setError("Execution failed.");
+  }
+};
 
   const [tree, setTree] = useState<FileNode[]>(initialTree);
   const [activeFile, setActiveFile] = useState<FileNode | null>(null);
@@ -60,29 +118,33 @@ export default function Dashboard() {
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
   const [exitCode, setExitCode] = useState<number | null>(null);
-  const [problems, setProblems] = useState([]);
-  setProblems([]);
+  const [problems] = useState([]);
+
   const [bottomHeight, setBottomHeight] = useState(220);
   const [isDragging, setIsDragging] = useState(false);
   const startYRef = useRef<number>(0);
   const startHeightRef = useRef<number>(0);
 
   const [apiResponse, setApiResponse] = useState("");
-  apiResponse;
+  console.log("API Response:", apiResponse);
+
   useEffect(() => {
     (async () => {
       try {
         const token = await getToken();
-        const res = await fetch(`http://localhost:8000/secure/ping`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/ping`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         const data = await res.json();
         setApiResponse(data?.message || "");
       } catch {
         setApiResponse("Backend unreachable");
       }
     })();
-  }, [getToken]);
+  }, []); 
 
   const onOpenFile = (node: FileNode) => setActiveFile(node);
 
@@ -146,8 +208,13 @@ export default function Dashboard() {
                 {activeFile && <div className="tab active">{activeFile.name}</div>}
               </div>
 
-              <div className="session-pill">
-                Signed in as {user?.fullName || user?.username}
+              <div className="editor-top-right">
+                <button className="run-btn" onClick={runCode} disabled={!activeFile}>
+                  ▶ Run
+                </button>
+                <div className="session-pill">
+                  {user?.fullName || user?.username}
+                </div>
               </div>
             </div>
 

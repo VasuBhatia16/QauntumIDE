@@ -37,7 +37,9 @@ def _build_docker_cmd(
 
 def run_in_docker(image: str, host_dir: str, workdir: str, cmd: List[str], timeout: int = 10) -> Tuple[int, str, str]:
     docker_cmd = _build_docker_cmd(image, workdir, host_dir, cmd)
-    proc = subprocess.run(docker_cmd, input=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=timeout)
+    env = os.environ.copy()
+    env["DOCKER_HOST"] = "tcp://docker:2375"
+    proc = subprocess.run(docker_cmd, input=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=timeout,env=env)
     return proc.returncode, proc.stdout, proc.stderr
 
 def compile_and_run(lang: str, tmpdir: str, filename: str, timeout: int = 10):
