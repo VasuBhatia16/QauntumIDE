@@ -10,7 +10,7 @@ app = FastAPI(title="QuantumIDE Backend", version="0.2.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173",config.ALLOWED_ORIGIN],
+    allow_origins=["http://localhost:5173","http://127.0.0.1:5173",config.ALLOWED_ORIGIN],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -19,4 +19,4 @@ app.add_middleware(
 app.include_router(system.router, prefix="/api")
 app.include_router(execute.router, prefix="/api")
 
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
+app.mount("/static", StaticFiles(directory="static", html=True), name="static")

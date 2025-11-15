@@ -35,21 +35,21 @@ def _build_docker_cmd(
     cmd += container_cmd
     return cmd
 
-def run_in_docker(image: str, host_dir: str, workdir: str, cmd: List[str], timeout: int = 10) -> Tuple[int, str, str]:
+def run_in_docker(image: str, host_dir: str, workdir: str, cmd: List[str], timeout: int = 30) -> Tuple[int, str, str]:
     docker_cmd = _build_docker_cmd(image, workdir, host_dir, cmd)
     env = os.environ.copy()
-    env["DOCKER_HOST"] = "tcp://docker:2375"
+    env["DOCKER_HOST"] = "tcp://dind:2375"
     proc = subprocess.run(docker_cmd, input=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=timeout,env=env)
     return proc.returncode, proc.stdout, proc.stderr
 
-def compile_and_run(lang: str, tmpdir: str, filename: str, timeout: int = 10):
+def compile_and_run(lang: str, tmpdir: str, filename: str, timeout: int = 30):
     cfg = LANG_CONFIG[lang]
     image = cfg["image"]
     workdir = "/workspace"
     if lang == "cpp":
         exe_name = "main_exec"
         compile_cmd = cfg["compile"](filename, exe_name)
-        rc, out, err = run_in_docker(image, tmpdir, workdir, compile_cmd, timeout=20)
+        rc, out, err = run_in_docker(image, tmpdir, workdir, compile_cmd, timeout=30)
         if rc != 0:
             return rc, out, err, False
         run_cmd = cfg["run"](exe_name)

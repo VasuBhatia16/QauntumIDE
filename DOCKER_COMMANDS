@@ -1,0 +1,6 @@
+docker stop quantumide dind && docker rm quantumide dind
+docker run -d --privileged --name dind -e DOCKER_TLS_CERTDIR="" docker:dind
+docker run -p 8000:8000 --privileged --link dind:docker -e DOCKER_HOST=tcp://docker:2375 --name quantumide quantumide
+$ docker run -p 8000:8000 \
+  -v //var/run/docker.sock:/var/run/docker.sock \
+  quantumide
