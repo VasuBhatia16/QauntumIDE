@@ -1,0 +1,18 @@
+services:
+  dind:
+    image: docker:dind
+    privileged: true
+    environment:
+      DOCKER_TLS_CERTDIR: ""
+    ports:
+      - "2375:2375"
+
+  quantumide:
+    image: quantumide
+    privileged: true
+    environment:
+      DOCKER_HOST: tcp://dind:2375
+    ports:
+      - "8000:8000"
+    depends_on:
+      - dind
